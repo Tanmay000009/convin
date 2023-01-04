@@ -21,20 +21,20 @@ export const User = ({ id }: { id: string }) => {
         <div className="flex justify-center">
           <img
             className="flex justify-center w-40 rounded-full"
-            src={user.avatar}
+            src={user.status === "loading" ? "/usericon.svg" : user.avatar}
             alt="User Avatar"
           />
         </div>
         <h1 className="flex justify-center text-2xl">
-          {user.first_name}
-          {"  "}
-          {user.last_name}
+          {user.status === "loading"
+            ? "Loading..."
+            : user.first_name + " " + user.last_name}
         </h1>
 
         <h1 className="flex justify-center">
-          <Mail />
+          {user.status === "loading" ? null : <Mail />}
           <a className="px-1" href={`mailto:${user.email}`}>
-            {user.email}
+            {user.status === "loading" ? "" : user.email}
           </a>
         </h1>
       </div>

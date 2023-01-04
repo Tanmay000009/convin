@@ -29,6 +29,7 @@ export interface UserAPIResponse {
     last_name: "";
     avatar: "";
   };
+  status: "idle" | "loading" | "failed" | "success";
 }
 
 export const initialState: User = {
