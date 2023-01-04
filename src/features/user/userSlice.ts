@@ -55,7 +55,8 @@ export const getUsersAsync = createAsyncThunk(
 
 export const getUserAsync = createAsyncThunk(
   "user/getUser",
-  async (id: string) => {
+  async (id: string = "0") => {
+    if (id === "0") return;
     const response = await fetch(`https://reqres.in/api/users/${id}`);
     const data: UserAPIResponse = await response.json();
     return data;
@@ -81,11 +82,11 @@ export const userSlice = createSlice({
       state.status = "failed";
     });
     builder.addCase(getUserAsync.fulfilled, (state, action) => {
-      state.id = action.payload.data.id;
-      state.email = action.payload.data.email;
-      state.first_name = action.payload.data.first_name;
-      state.last_name = action.payload.data.last_name;
-      state.avatar = action.payload.data.avatar;
+      state.id = action.payload?.data?.id ?? "";
+      state.email = action.payload?.data?.email ?? "";
+      state.first_name = action.payload?.data?.first_name ?? "";
+      state.last_name = action.payload?.data?.last_name ?? "";
+      state.avatar = action.payload?.data?.avatar ?? "";
       state.status = "success";
     });
     builder.addCase(getUserAsync.pending, (state) => {
