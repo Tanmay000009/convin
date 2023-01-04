@@ -9,6 +9,8 @@ export interface User {
   avatar: string;
   status: "idle" | "loading" | "failed" | "success";
   users: string[];
+  page: number;
+  total_pages: number;
 }
 
 export interface UsersAPIResponse {
@@ -37,13 +39,18 @@ export const initialState: User = {
   avatar: "",
   status: "idle",
   users: [],
+  page: 0,
+  total_pages: 0,
 };
 
-export const getUsersAsync = createAsyncThunk("user/getUsers", async () => {
-  const response = await fetch("https://reqres.in/api/users");
-  const data: UsersAPIResponse = await response.json();
-  return data;
-});
+export const getUsersAsync = createAsyncThunk(
+  "user/getUsers",
+  async (id: string = "1") => {
+    const response = await fetch(`https://reqres.in/api/users/?page=${id}`);
+    const data: UsersAPIResponse = await response.json();
+    return data;
+  }
+);
 
 export const getUserAsync = createAsyncThunk(
   "user/getUser",
@@ -62,6 +69,8 @@ export const userSlice = createSlice({
     builder.addCase(getUsersAsync.fulfilled, (state, action) => {
       const userIds = action.payload.data.map((user) => user.id);
       state.users = userIds;
+      state.page = action.payload.page;
+      state.total_pages = action.payload.total_pages;
       state.status = "success";
     });
     builder.addCase(getUsersAsync.pending, (state) => {

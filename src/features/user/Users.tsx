@@ -24,7 +24,18 @@ export const Users = () => {
     <div className="flex-col justify-center">
       {activeUserId ? <User id={activeUserId} /> : <User id={users.users[0]} />}
       <div className="flex justify-around mt-20 text-[#232946] ">
-        <p className={"bg-[#fffffe]" + textStyle + " cursor-not-allowed	"}>
+        <p
+          className={
+            "bg-[#fffffe]" +
+            textStyle +
+            (users.page === 1 ? " cursor-not-allowed" : " cursor-pointer")
+          }
+          onClick={() => {
+            if (users.page > 1) {
+              dispatch(getUsersAsync((users.page - 1).toString()));
+            }
+          }}
+        >
           {"<"}
         </p>
         {users.users.map((id) => (
@@ -36,7 +47,22 @@ export const Users = () => {
             {id}
           </p>
         ))}
-        <p className={"bg-[#fffffe]" + textStyle}>{">"}</p>
+        <p
+          className={
+            "bg-[#fffffe]" +
+            textStyle +
+            (users.page >= users.total_pages
+              ? " cursor-not-allowed"
+              : " cursor-pointer")
+          }
+          onClick={() => {
+            if (users.page < users.total_pages) {
+              dispatch(getUsersAsync((users.page + 1).toString()));
+            }
+          }}
+        >
+          {">"}
+        </p>
       </div>
     </div>
   );
