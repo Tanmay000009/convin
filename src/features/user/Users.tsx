@@ -21,10 +21,12 @@ export const Users = () => {
   const textStyle = " px-3 py-1 sm:px-4 sm:py-2 rounded-full cursor-pointer";
 
   return (
-    <div className="flex-col justify-center ">
-      {activeUserId ? <User id={activeUserId} /> : null}
+    <div className="flex-col justify-center">
+      {activeUserId ? <User id={activeUserId} /> : <User id={users.users[0]} />}
       <div className="flex justify-around mt-20 text-[#232946] ">
-        <p className={"bg-[#fffffe]" + textStyle}>{"<"}</p>
+        <p className={"bg-[#fffffe]" + textStyle + " cursor-not-allowed	"}>
+          {"<"}
+        </p>
         {users.users.map((id) => (
           <p
             key={id}
