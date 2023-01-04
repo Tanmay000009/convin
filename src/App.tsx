@@ -1,3 +1,5 @@
+import { Users } from "./features/user/Users";
+
 export const App = () => {
   return (
     <div className="App">
@@ -9,6 +11,7 @@ export const App = () => {
       >
         Convin task
       </h1>
+      <Users />
     </div>
   );
 };
