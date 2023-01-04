@@ -10,8 +10,9 @@ export const App = () => {
         }}
         className="p-4 text-6xl text-[#b8c1ec]"
       >
-        Convin task
+        Convin Task
       </h1>
+      <hr className="border-2 border-[#121629]" />
       <Users />
     </div>
   );
