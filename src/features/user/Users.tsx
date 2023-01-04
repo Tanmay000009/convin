@@ -18,16 +18,24 @@ export const Users = () => {
     getUsers();
   }, [dispatch]);
 
+  const textStyle = " px-3 py-1 sm:px-4 sm:py-2 rounded-full cursor-pointer";
+
   return (
-    <div>
+    <div className="flex-col justify-center ">
       {activeUserId ? <User id={activeUserId} /> : null}
-      <ul>
+      <div className="flex justify-around mt-20 text-[#232946] ">
+        <p className={"bg-[#fffffe]" + textStyle}>{"<"}</p>
         {users.users.map((id) => (
-          <li key={id} onClick={() => setActiveUserId(id)}>
+          <p
+            key={id}
+            onClick={() => setActiveUserId(id)}
+            className={"bg-[#eebbc3]" + textStyle}
+          >
             {id}
-          </li>
+          </p>
         ))}
-      </ul>
+        <p className={"bg-[#fffffe]" + textStyle}>{">"}</p>
+      </div>
     </div>
   );
 };
