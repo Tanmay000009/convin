@@ -64,6 +64,9 @@ export const Users = () => {
           {">"}
         </p>
       </div>
+      <div className="flex justify-center mt-8 text-2xl text-[#b8c1ec]">
+        Page {users.page} of {users.total_pages}
+      </div>
     </div>
   );
 };
