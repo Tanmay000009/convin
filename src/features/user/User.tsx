@@ -14,7 +14,6 @@ export const User = ({ id }: { id: string }) => {
     };
     getUser();
   }, [dispatch, id]);
-  console.log(user);
 
   return (
     <div className="flex justify-center">
