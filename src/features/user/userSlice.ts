@@ -11,12 +11,22 @@ export interface User {
   users: string[];
 }
 
-export interface APIResponse {
+export interface UsersAPIResponse {
   data: User[];
   page: number;
   per_page: number;
   total: number;
   total_pages: number;
+}
+
+export interface UserAPIResponse {
+  data: {
+    id: "";
+    email: "";
+    first_name: "";
+    last_name: "";
+    avatar: "";
+  };
 }
 
 export const initialState: User = {
@@ -31,9 +41,18 @@ export const initialState: User = {
 
 export const getUsersAsync = createAsyncThunk("user/getUsers", async () => {
   const response = await fetch("https://reqres.in/api/users");
-  const data: APIResponse = await response.json();
+  const data: UsersAPIResponse = await response.json();
   return data;
 });
+
+export const getUserAsync = createAsyncThunk(
+  "user/getUser",
+  async (id: string) => {
+    const response = await fetch(`https://reqres.in/api/users/${id}`);
+    const data: UserAPIResponse = await response.json();
+    return data;
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -41,7 +60,6 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUsersAsync.fulfilled, (state, action) => {
-      console.log(action.payload);
       const userIds = action.payload.data.map((user) => user.id);
       state.users = userIds;
       state.status = "success";
@@ -52,9 +70,25 @@ export const userSlice = createSlice({
     builder.addCase(getUsersAsync.rejected, (state) => {
       state.status = "failed";
     });
+    builder.addCase(getUserAsync.fulfilled, (state, action) => {
+      state.id = action.payload.data.id;
+      state.email = action.payload.data.email;
+      state.first_name = action.payload.data.first_name;
+      state.last_name = action.payload.data.last_name;
+      state.avatar = action.payload.data.avatar;
+      state.status = "success";
+    });
+    builder.addCase(getUserAsync.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(getUserAsync.rejected, (state) => {
+      state.status = "failed";
+    });
   },
 });
 
-export const selectUsers = (state: RootState) => state.user.users;
+export const selectUsers = (state: RootState) => state.user;
+
+export const selectUser = (state: RootState) => state;
 
 export default userSlice.reducer;
